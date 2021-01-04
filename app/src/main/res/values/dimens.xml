@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //Font Size
+    <dimen name="normal">14sp</dimen>
+    <dimen name="small">12sp</dimen>
+    <dimen name="action_bar">20sp</dimen>
+    <dimen name="header">18sp</dimen>
+
+    //Other
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_radius">4dp</dimen>
+    <dimen name="et_height">48dp</dimen>
+
+</resources>

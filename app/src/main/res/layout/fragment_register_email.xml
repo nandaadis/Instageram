@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Auth.RegisterEmailFragment">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="EMAIL DAN KATA SANDI"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/et_height"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="28dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="@drawable/bg_grey_grey"
+        android:hint="Email"
+        android:textColor="@color/grey_text2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        android:inputType="textEmailAddress"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_katasandi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_username"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        app:endIconMode="password_toggle"
+        app:hintEnabled="false">
+
+        <EditText
+            android:id="@+id/et_katasandi"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:background="@drawable/bg_grey_grey"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:hint="Kata Sandi"
+            android:inputType="textPassword"
+            android:textColor="@color/grey_text2"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_katasandi"
+        android:text="Lanjutkan"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@color/blue_inactive"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Karena developernya tidak memiliki UX Writter jadi mbuat kata-katanya kebanyakan ngasal, tapi appnya dibuat nggak asal-asalan kok hehe, semoga. Pada versi ini belum ada verif email sih jadi emailnya di isi asal bisa sih, asalkan masih format email. Mau mbuat Syarat dan Ketentuan tapi bingung, daripada appnya nggak jadi2 yang penting gunakan app ini dengan sebijak mungkin dan apa yang sudah anda upload jadi tanggung jawab pribadi ya hehe"
+        android:textAlignment="center"
+        android:textColor="@color/grey_text"
+        android:textSize="@dimen/small"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="false"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

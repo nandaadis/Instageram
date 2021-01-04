@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "454583803477",
+    "project_id": "instageram-14ea0",
+    "storage_bucket": "instageram-14ea0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454583803477:android:e70f329f78d1c0bdfcbedc",
+        "android_client_info": {
+          "package_name": "com.example.instageram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454583803477-k64qkrqiig9822kfvl6tjq5c6hii23i5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.instageram",
+            "certificate_hash": "bacc2114128c0d37bff8cb0768a7eaeaba3235a0"
+          }
+        },
+        {
+          "client_id": "454583803477-01urb445vthlkb9mb6fiphtk444suthe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8avJaSz2kzjFSkWtk9x53EJlqwEN5ePY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454583803477-01urb445vthlkb9mb6fiphtk444suthe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
