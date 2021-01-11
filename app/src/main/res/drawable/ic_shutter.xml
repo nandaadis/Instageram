@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape android:shape="oval" >
+            <solid android:color="@color/blue"/>
+            <size
+                android:width="64dp"
+                android:height="64dp"
+                />
+        </shape>
+    </item>
+    <!-- create the stroke for top, left, bottom and right with the dp you want -->
+    <item
+        android:bottom="@dimen/outercircle"
+        android:left="@dimen/outercircle"
+        android:right="@dimen/outercircle"
+        android:top="@dimen/outercircle">
+        <shape android:shape="oval" >
+            <!-- fill the inside in the color you want (could also be a gradient again if you want to, just change solid to gradient and enter angle, start, maybe center, and end color) -->
+            <solid android:color="#fff" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/insidecircle"
+        android:left="@dimen/insidecircle"
+        android:right="@dimen/insidecircle"
+        android:top="@dimen/insidecircle">
+        <shape android:shape="oval" >
+            <!-- fill the inside in the color you want (could also be a gradient again if you want to, just change solid to gradient and enter angle, start, maybe center, and end color) -->
+            <solid android:color="@color/blue" />
+        </shape>
+    </item>
+</layer-list>

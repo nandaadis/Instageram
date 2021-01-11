@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="black_light">#FF262626</color>
+    <color name="white_transparent">#73FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#efefef</color> //238
     <color name="grey_light">#fafafa</color> //250
@@ -14,5 +15,6 @@
     <color name="blue">#0095F6</color>
     <color name="blue_inactive">#afe0f8</color>
     <color name="blue_dark">#2f5b83</color>
+    <color name="green_success">#19DA19</color>
 
 </resources>

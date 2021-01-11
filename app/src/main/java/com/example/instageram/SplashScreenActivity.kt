@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.bumptech.glide.Glide
-import com.example.instageram.Auth.AuthActivity
+import com.example.instageram.auth.ui.view.AuthActivity
 import com.example.instageram.databinding.ActivitySplashScreenBinding
 
 class SplashScreenActivity : AppCompatActivity() {

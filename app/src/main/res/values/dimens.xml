@@ -6,6 +6,10 @@
     <dimen name="action_bar">20sp</dimen>
     <dimen name="header">18sp</dimen>
 
+    //Shutter
+    <dimen name="outercircle">2dp</dimen>
+    <dimen name="insidecircle">5dp</dimen>
+
     //Other
     <dimen name="button_height">48dp</dimen>
     <dimen name="button_radius">4dp</dimen>

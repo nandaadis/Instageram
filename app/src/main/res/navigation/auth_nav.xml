@@ -6,35 +6,15 @@
     app:startDestination="@id/welcomePageFragment">
 
     <fragment
-        android:id="@+id/loginGoogleFragment"
-        android:name="com.example.instageram.Auth.LoginGoogleFragment"
-        android:label="fragment_login_google"
-        tools:layout="@layout/fragment_login_google" >
-        <action
-            android:id="@+id/action_loginGoogleFragment_to_loginUsernamePhotoFragment"
-            app:destination="@id/loginUsernamePhotoFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@android:anim/slide_out_right" />
-    </fragment>
-    <fragment
         android:id="@+id/loginEmailFragment"
-        android:name="com.example.instageram.Auth.LoginEmailFragment"
+        android:name="com.example.instageram.auth.ui.view.LoginEmailFragment"
         android:label="fragment_login_email"
         tools:layout="@layout/fragment_login_email" />
     <fragment
         android:id="@+id/welcomePageFragment"
-        android:name="com.example.instageram.Auth.WelcomePageFragment"
+        android:name="com.example.instageram.auth.ui.view.WelcomePageFragment"
         android:label="fragment_welcome_page"
         tools:layout="@layout/fragment_welcome_page" >
-        <action
-            android:id="@+id/action_welcomePageFragment_to_loginGoogleFragment"
-            app:destination="@id/loginGoogleFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_welcomePageFragment_to_registerEmailFragment"
             app:destination="@id/registerEmailFragment"
@@ -49,10 +29,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_welcomePageFragment_to_loginUsernamePhotoFragment"
+            app:destination="@id/loginUsernamePhotoFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerEmailFragment"
-        android:name="com.example.instageram.Auth.RegisterEmailFragment"
+        android:name="com.example.instageram.auth.ui.view.RegisterEmailFragment"
         android:label="fragment_register_email"
         tools:layout="@layout/fragment_register_email" >
         <action
@@ -65,28 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginUsernamePhotoFragment"
-        android:name="com.example.instageram.Auth.loginUsernamePhotoFragment"
+        android:name="com.example.instageram.auth.ui.view.loginUsernamePhotoFragment"
         android:label="fragment_login_username_photo"
-        tools:layout="@layout/fragment_login_username_photo" >
-        <action
-            android:id="@+id/action_loginUsernamePhotoFragment_to_registerTakeProfilePicFragment"
-            app:destination="@id/registerTakeProfilePicFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@android:anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/registerTakeProfilePicFragment"
-        android:name="com.example.instageram.Auth.RegisterTakeProfilePicFragment"
-        android:label="fragment_register_take_profile_pic"
-        tools:layout="@layout/fragment_register_take_profile_pic" >
-        <action
-            android:id="@+id/action_registerTakeProfilePicFragment_to_loginUsernamePhotoFragment"
-            app:destination="@id/loginUsernamePhotoFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@android:anim/slide_out_right" />
-    </fragment>
+        tools:layout="@layout/fragment_login_username_photo" />
 </navigation>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Auth.loginUsernamePhotoFragment">
+    tools:context=".auth.ui.view.loginUsernamePhotoFragment">
 
     <TextView
         android:id="@+id/tv_title"
@@ -32,7 +32,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:background="@drawable/bg_grey_grey"
-        android:hint="Email"
+        android:hint="Username"
         android:textColor="@color/grey_text2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_username"
         android:drawableStart="@drawable/ic_outline_camera_alt_24"
-        android:padding="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:drawablePadding="16dp"
         android:textAlignment="textStart"
         android:text="Ambil Gambar"
@@ -72,10 +73,22 @@
         android:text="Masuk"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:background="@color/blue_inactive"
-        android:clickable="false"
+        android:background="@color/blue"
+        android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/white_transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

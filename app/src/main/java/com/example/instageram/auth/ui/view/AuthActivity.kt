@@ -1,4 +1,4 @@
-package com.example.instageram.Auth
+package com.example.instageram.auth.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
