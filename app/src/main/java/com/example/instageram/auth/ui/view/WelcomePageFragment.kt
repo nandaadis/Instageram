@@ -18,6 +18,7 @@ import com.example.instageram.auth.data.FirebaseAuthSource
 import com.example.instageram.auth.ui.viewmodel.AuthViewModel
 import com.example.instageram.auth.ui.viewmodel.AuthViewModelFactory
 import com.example.instageram.databinding.FragmentWelcomePageBinding
+import com.example.instageram.main.ui.view.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [WelcomePageFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class WelcomePageFragment : Fragment(), AuthListener {
+class WelcomePageFragment : Fragment(), AuthListener, CheckListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -56,6 +57,7 @@ class WelcomePageFragment : Fragment(), AuthListener {
 
         viewModel = ViewModelProviders.of(this, factory).get(AuthViewModel::class.java)
         viewModel.authListener = this
+        viewModel.checkListener = this
     }
 
     override fun onCreateView(
@@ -75,6 +77,8 @@ class WelcomePageFragment : Fragment(), AuthListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.checkUserId()
 
         binding.btnRegisterGoogle.setOnClickListener {
             val option = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -141,4 +145,14 @@ class WelcomePageFragment : Fragment(), AuthListener {
         binding.progressbar.visibility = View.GONE
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
+
+    override fun UserYes() {
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun UserNo() {
+        view?.let { Navigation.findNavController(it).navigate(R.id.action_welcomePageFragment_to_loginUsernamePhotoFragment) }
+    }
+
 }

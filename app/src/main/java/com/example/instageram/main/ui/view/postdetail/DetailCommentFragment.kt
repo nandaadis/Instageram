@@ -1,4 +1,4 @@
-package com.example.instageram.auth.ui.view
+package com.example.instageram.main.ui.view.postdetail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [LoginGoogleFragment.newInstance] factory method to
+ * Use the [DetailCommentFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class LoginGoogleFragment : Fragment() {
+class DetailCommentFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +35,7 @@ class LoginGoogleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login_google, container, false)
+        return inflater.inflate(R.layout.fragment_detail_comment, container, false)
     }
 
     companion object {
@@ -45,12 +45,12 @@ class LoginGoogleFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginGoogleFragment.
+         * @return A new instance of fragment DetailCommentFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            LoginGoogleFragment().apply {
+            DetailCommentFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

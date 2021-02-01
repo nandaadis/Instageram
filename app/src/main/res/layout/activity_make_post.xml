@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.ui.view.myprofile.MakePostActivity">
+
+    <View
+        android:id="@+id/actionbar_myprofile"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/iv_close"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/ic_baseline_keyboard_backspace_24"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/actionbar_myprofile"
+        app:layout_constraintStart_toStartOf="@id/actionbar_myprofile"
+        app:layout_constraintTop_toTopOf="@+id/actionbar_myprofile"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Postingan Baru"
+        android:textSize="@dimen/action_bar"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/actionbar_myprofile"
+        app:layout_constraintStart_toEndOf="@+id/iv_close"
+        app:layout_constraintTop_toTopOf="@id/actionbar_myprofile" />
+
+    <View
+        android:id="@+id/iv_done"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/ic_baseline_check_24"
+        app:layout_constraintBottom_toBottomOf="@+id/actionbar_myprofile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/actionbar_myprofile"
+        />
+
+    <ImageView
+        android:id="@+id/iv_thumbnail"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:layout_constraintStart_toStartOf="@id/iv_close"
+        app:layout_constraintTop_toBottomOf="@id/actionbar_myprofile"
+        android:layout_marginTop="24dp"
+        android:src="@color/blue"
+        />
+
+    <EditText
+        android:id="@+id/et_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/iv_thumbnail"
+        app:layout_constraintStart_toEndOf="@id/iv_thumbnail"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="86dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Tulis keterangan..."
+        android:background="@color/transparent"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Devnya belum nemu cara ngambil foto banyak sekaligus dari galeri yang bagus, sama ngetag temennya belum ada karena backend gratisan yang digunakan kostumisasinya kurang hehe, Appnya nggak jadi2 nanti haha"
+        android:textAlignment="center"
+        android:textColor="@color/grey_text"
+        android:textSize="@dimen/small"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="false"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progressbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:visibility="gone"
+        >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white_transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

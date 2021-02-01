@@ -69,7 +69,11 @@ class RegisterEmailFragment : Fragment(), AuthListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
-            viewModel.registerUser(binding.etEmail.text.toString(), binding.etKatasandi.text.toString())
+            if (binding.etEmail.text.toString().isNotEmpty() && binding.etKatasandi.text.toString().isNotEmpty()) {
+                viewModel.registerUser(binding.etEmail.text.toString(), binding.etKatasandi.text.toString())
+            } else {
+                Toast.makeText(activity, "Di isi semua ya gaes tolong", Toast.LENGTH_LONG).show()
+            }
         }
     }
 

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    //Font Size
+    //Font
+    <dimen name="big">16sp</dimen>
     <dimen name="normal">14sp</dimen>
     <dimen name="small">12sp</dimen>
-    <dimen name="action_bar">20sp</dimen>
+    <dimen name="action_bar">24sp</dimen>
     <dimen name="header">18sp</dimen>
 
     //Shutter
@@ -14,5 +15,6 @@
     <dimen name="button_height">48dp</dimen>
     <dimen name="button_radius">4dp</dimen>
     <dimen name="et_height">48dp</dimen>
+    <dimen name="action_bar_height">48dp</dimen>
 
 </resources>

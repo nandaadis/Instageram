@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dummy.DummyActivity">
+
+    <TextView
+        android:id="@+id/texttext"
+        android:textColor="@color/green_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="cjvndefrgnoa"
+        android:textSize="@dimen/big"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/photophoto"
+        android:src="@mipmap/logo_instageram"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintTop_toBottomOf="@id/texttext"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button"
+        app:layout_constraintTop_toBottomOf="@id/photophoto"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/btn"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="logout"
+        app:layout_constraintTop_toBottomOf="@id/btn"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/logout"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="coba2"
+        app:layout_constraintTop_toBottomOf="@id/logout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/btnbtn"
+        />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnbtn"
+        android:digits="abcdefghijklmnopqrstuvwxyz1234567890_"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

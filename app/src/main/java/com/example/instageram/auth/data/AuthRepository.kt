@@ -8,9 +8,9 @@ class AuthRepository(private val firebase: FirebaseAuthSource) {
 
     fun login(email: String, password: String) = firebase.login(email, password)
 
-    fun register(email: String, password: String) = firebase.register(email, password)
+    fun checkUserId() = firebase.checkUserId()
 
-    fun currentUser() = firebase.currentUser()
+    fun register(email: String, password: String) = firebase.register(email, password)
 
     fun uploadImage(photo: Uri, username:String) = firebase.uploadImage(photo, username)
 

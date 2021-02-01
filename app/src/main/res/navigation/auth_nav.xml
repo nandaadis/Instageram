@@ -9,7 +9,11 @@
         android:id="@+id/loginEmailFragment"
         android:name="com.example.instageram.auth.ui.view.LoginEmailFragment"
         android:label="fragment_login_email"
-        tools:layout="@layout/fragment_login_email" />
+        tools:layout="@layout/fragment_login_email" >
+        <action
+            android:id="@+id/action_loginEmailFragment_to_loginUsernamePhotoFragment"
+            app:destination="@id/loginUsernamePhotoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/welcomePageFragment"
         android:name="com.example.instageram.auth.ui.view.WelcomePageFragment"

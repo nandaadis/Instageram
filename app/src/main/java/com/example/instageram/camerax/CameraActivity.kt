@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
+import com.example.instageram.BuildConfig
 import com.example.instageram.R
 import com.example.instageram.auth.ui.view.loginUsernamePhotoFragment
 import com.example.instageram.databinding.ActivityCameraBinding
@@ -31,10 +32,7 @@ import com.google.firebase.Timestamp
 import id.zelory.cekrek.Cekrek
 import id.zelory.cekrek.config.CanvasSize
 import kotlinx.android.synthetic.main.activity_camera.*
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -292,16 +290,61 @@ class CameraActivity : AppCompatActivity() {
         val imageFileName = "PhotoProfile_$dateNow.jpg"
         val cachePath = File(externalCacheDir, "my_images/")
         cachePath.mkdirs()
-
         val file = File(cachePath, imageFileName)
-        val fileOutputStream: FileOutputStream
+
+//        val fileOutputStream: FileOutputStream
+//        try {
+//            fileOutputStream = FileOutputStream(file)
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 20, fileOutputStream)
+//            fileOutputStream.flush()
+//            fileOutputStream.close()
+//        } catch (e: FileNotFoundException) {
+//            e.printStackTrace()
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//
+//        val myImageFileUri: Uri = FileProvider.getUriForFile(
+//            this,
+//            applicationContext.packageName + ".provider",
+//            file
+//        )
+//
+//
+//        val returnIntent = Intent()
+//        returnIntent.putExtra("result", myImageFileUri.toString())
+//        setResult(Activity.RESULT_OK, returnIntent)
+//        finish()
+
+        //Compress image 1MB
+        val MAX_IMAGE_SIZE = 1000 * 1024
+        var streamLength = MAX_IMAGE_SIZE
+        var compressQuality = 105
+        val bmpStream = ByteArrayOutputStream()
+        while (streamLength >= MAX_IMAGE_SIZE && compressQuality > 5) {
+            try {
+                bmpStream.flush() //to avoid out of memory error
+                bmpStream.reset()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            compressQuality -= 5
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            val bmpPicByteArray: ByteArray = bmpStream.toByteArray()
+            streamLength = bmpPicByteArray.size
+            if (BuildConfig.DEBUG) {
+                Log.d("test upload", "Quality: $compressQuality")
+                Log.d("test upload", "Size: $streamLength")
+            }
+        }
+
+        val fo: FileOutputStream
+
         try {
-            fileOutputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
-            fileOutputStream.flush()
-            fileOutputStream.close()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
+            fo = FileOutputStream(file)
+            fo.write(bmpStream.toByteArray())
+            fo.flush()
+            fo.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -312,11 +355,11 @@ class CameraActivity : AppCompatActivity() {
             file
         )
 
-
         val returnIntent = Intent()
         returnIntent.putExtra("result", myImageFileUri.toString())
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
+
     }
 
 }

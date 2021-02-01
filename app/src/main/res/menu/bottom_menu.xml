@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/timelineFragment"
+        android:title="Timeline"
+        android:icon="@drawable/ic_bottomnav_1"
+        />
+    <item
+        android:id="@+id/searchFragment"
+        android:title="Search"
+        android:icon="@drawable/ic_bottomnav_2"
+        />
+    <item
+        android:id="@+id/cameraFragment"
+        android:title="Photo"
+        android:icon="@drawable/ic_bottomnav_3"
+        />
+    <item
+        android:id="@+id/myProfileFragment"
+        android:title="Account"
+        android:icon="@drawable/ic_bottomnav_4"
+        />
+</menu>

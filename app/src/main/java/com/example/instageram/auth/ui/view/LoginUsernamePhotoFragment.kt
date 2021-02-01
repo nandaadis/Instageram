@@ -1,11 +1,9 @@
 package com.example.instageram.auth.ui.view
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +12,7 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import com.bumptech.glide.Glide
-import com.example.instageram.MainActivity
+import com.example.instageram.main.ui.view.MainActivity
 import com.example.instageram.R
 import com.example.instageram.auth.data.AuthRepository
 import com.example.instageram.auth.data.FirebaseAuthSource
@@ -37,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [loginUsernamePhotoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class loginUsernamePhotoFragment : Fragment(), AuthListener {
+class loginUsernamePhotoFragment : Fragment(), AuthListener, CheckListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -59,8 +55,8 @@ class loginUsernamePhotoFragment : Fragment(), AuthListener {
         }
 
         viewModel = ViewModelProviders.of(this, factory).get(AuthViewModel::class.java)
-
         viewModel.authListener = this
+        viewModel.checkListener = this
     }
 
     override fun onCreateView(
@@ -80,13 +76,20 @@ class loginUsernamePhotoFragment : Fragment(), AuthListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.checkUserId()
+
         binding.btnTakepic.setOnClickListener {
             val intent = Intent(activity, CameraActivity::class.java)
             this.startActivityForResult(intent, 21)
         }
 
         binding.btnNext.setOnClickListener {
-            viewModel.uploadImageUser(picUri , binding.etUsername.text.toString())
+            if (statPhoto == true && binding.etUserid.text.toString().isNotEmpty()) {
+                viewModel.uploadImageUser(picUri , binding.etUserid.text.toString())
+            } else {
+                Toast.makeText(activity, "Di isi semua ya gaes tolong", Toast.LENGTH_LONG).show()
+            }
+
         }
     }
 
@@ -103,25 +106,15 @@ class loginUsernamePhotoFragment : Fragment(), AuthListener {
                     0
                 )
                 data?.getStringExtra("result")?.let { picUri = it.toUri() }
-
-                Log.d(Util.TAG, picUri.toString())
-//                Glide
-//                    .with(this)
-//                    .asBitmap()
-//                    .load(
-//                        picUri
-//                    )
-//                    .centerCrop()
-//                    .into(binding.ivEyebrow)
-
-
+                statPhoto = true
             }
         }
     }
 
     companion object {
 
-        lateinit var picUri : Uri
+        private lateinit var picUri : Uri
+        private var statPhoto : Boolean = false
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -147,6 +140,10 @@ class loginUsernamePhotoFragment : Fragment(), AuthListener {
 
     override fun onSuccess() {
         binding.progressbar.visibility = View.GONE
+        picUri?.let{
+            val fdelete = File(it.path)
+            fdelete.delete()
+        }
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
     }
@@ -154,5 +151,14 @@ class loginUsernamePhotoFragment : Fragment(), AuthListener {
     override fun onFailure(message: String) {
         binding.progressbar.visibility = View.GONE
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun UserYes() {
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun UserNo() {
+        //Nothing to do all iz well
     }
 }

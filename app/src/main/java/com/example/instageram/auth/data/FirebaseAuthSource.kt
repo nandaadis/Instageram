@@ -1,11 +1,7 @@
 package com.example.instageram.auth.data
 
-import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import com.example.instageram.auth.data.model.RegisterUsername
-import com.example.instageram.utils.Util
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -14,12 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
+import java.util.*
 
 class FirebaseAuthSource {
 
@@ -27,12 +18,17 @@ class FirebaseAuthSource {
         FirebaseAuth.getInstance()
     }
 
-    private val imagesRef = Firebase.storage.reference.child("images")
+    private val imagesRef = Firebase.storage.reference
     private val userCollectionRef = Firebase.firestore.collection("user")
 
 
-    fun login(email: String, password: String) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+    fun login(email: String, password: String) = Completable.create { emitter ->
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful)
+                emitter.onComplete()
+            else
+                emitter.onError(it.exception!!)
+        }
     }
 
     fun register(email: String, password: String) = Completable.create { emitter ->
@@ -44,35 +40,35 @@ class FirebaseAuthSource {
         }
     }
 
-    fun uploadImage(photo: Uri, username: String): Observable<RegisterUsername> {
+    fun uploadImage(photo: Uri, userid: String): Observable<RegisterUsername> {
         return Observable.create { emitter ->
-            var uploadTask = imagesRef.putFile(photo)
+            val dateNow = Calendar.getInstance().timeInMillis
+            val uploadTask = imagesRef.child("photoprofile/${dateNow}.jpeg").putFile(photo)
             uploadTask.addOnFailureListener {
                 emitter.onError(it)
             }.addOnSuccessListener { taskSnapshot ->
-                val data = RegisterUsername(taskSnapshot.storage.downloadUrl.toString(), username)
+                val data = RegisterUsername(taskSnapshot.storage.path, userid, userid)
                 emitter.onNext(data)
             }
         }
     }
 
     fun firestoreUser(RegisterUsername: RegisterUsername) = Completable.create { emitter ->
-        val data = hashMapOf(
-            "username" to RegisterUsername.Username,
-            "photourl" to RegisterUsername.PhotoUrl
+        val data = RegisterUsername(
+            RegisterUsername.photopath,
+            RegisterUsername.userid,
+            RegisterUsername.userid
         )
 
         userCollectionRef.document(currentUser()).set(data)
             .addOnSuccessListener { documentReference ->
-                Log.d(Util.TAG, "DocumentSnapshot written with ID: ${documentReference}")
                 emitter.onComplete()
             }
             .addOnFailureListener { e ->
                 emitter.onError(e)
-                Log.w(Util.TAG, "Error adding document", e)
             }
-
     }
+
 
     fun googleAuthForFirebase(account: GoogleSignInAccount) = Completable.create { emitter ->
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
@@ -86,11 +82,34 @@ class FirebaseAuthSource {
 
     }
 
+    fun checkUserId() = Completable.create { emitter ->
+        userCollectionRef.document(currentUser()).get().addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    if (task.result!!.exists()){
+                        emitter.onComplete()
+                    }
+                } else {
+                    emitter.onError(task.exception!!)
+                }
 
-fun currentUser(): String {
-    return firebaseAuth.currentUser?.let {
-        it.uid
-    } ?: "404"
-}
+        }
+//            OnCompleteListener<DocumentSnapshot> { task ->
+//                if (task.isSuccessful) {
+//                    if (task.result!!.exists()){
+//                        emitter.onComplete()
+//                    } else {
+//                        emitter.onError(task.exception!!)
+//                    }
+//                } else {
+//                    emitter.onError(task.exception!!)
+//                }
+//            })
+    }
+
+    fun currentUser(): String {
+        return firebaseAuth.currentUser?.let {
+            it.uid
+        } ?: "404"
+    }
 
 }

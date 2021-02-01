@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav"
+    app:startDestination="@id/timelineFragment">
+    <fragment
+        android:id="@+id/timelineFragment"
+        android:name="com.example.instageram.main.ui.view.timeline.TimelineFragment"
+        android:label="fragment_timeline"
+        tools:layout="@layout/fragment_timeline" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.instageram.main.ui.view.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.instageram.main.ui.view.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.instageram.main.ui.view.myprofile.MyProfileFragment"
+        android:label="fragment_my_profile"
+        tools:layout="@layout/fragment_my_profile" >
+        <action
+            android:id="@+id/action_myProfileFragment_to_detailPostFragment"
+            app:destination="@id/detailPostFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_myProfilEditProfilFragment"
+            app:destination="@id/myProfilEditProfilFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfilEditProfilFragment"
+        android:name="com.example.instageram.main.ui.view.myprofile.MyProfilEditProfilFragment"
+        android:label="fragment_my_profil_edit_profil"
+        tools:layout="@layout/fragment_my_profil_edit_profil" >
+        <argument
+            android:name="userUID"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailPostFragment"
+        android:name="com.example.instageram.main.ui.view.postdetail.DetailPostFragment"
+        android:label="fragment_detail_post"
+        tools:layout="@layout/fragment_detail_post" >
+        <action
+            android:id="@+id/action_detailPostFragment_to_detailCommentFragment"
+            app:destination="@id/detailCommentFragment" />
+        <argument
+            android:name="postID"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCommentFragment"
+        android:name="com.example.instageram.main.ui.view.postdetail.DetailCommentFragment"
+        android:label="fragment_detail_comment"
+        tools:layout="@layout/fragment_detail_comment" >
+        <argument android:name="postID" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfileMyPhotoFragment"
+        android:name="com.example.instageram.main.ui.view.myprofile.MyProfileMyPhotoFragment"
+        android:label="fragment_my_profile_my_photo"
+        tools:layout="@layout/fragment_my_profile_my_photo" >
+        <action
+            android:id="@+id/action_myProfileMyPhotoFragment_to_detailPostFragment"
+            app:destination="@id/detailPostFragment" />
+    </fragment>
+</navigation>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".main.ui.view.myprofile.MyProfileFragment"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    >
+
+    <!--ActionBar-->
+    <View
+        android:id="@+id/actionbar_myprofile"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_user_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="userid disini"
+        android:textSize="@dimen/action_bar"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/actionbar_myprofile"
+        app:layout_constraintEnd_toStartOf="@+id/iv_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/actionbar_myprofile" />
+
+    <ImageView
+        android:id="@+id/iv_menu"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_round_menu_24"
+        app:layout_constraintBottom_toBottomOf="@+id/actionbar_myprofile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/actionbar_myprofile"
+        app:tint="@color/black" />
+
+    <ImageView
+        android:id="@+id/iv_add"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_round_add_24"
+        app:layout_constraintBottom_toBottomOf="@+id/actionbar_myprofile"
+        app:layout_constraintEnd_toStartOf="@id/iv_menu"
+        app:layout_constraintTop_toTopOf="@+id/actionbar_myprofile"
+        app:tint="@color/black" />
+
+    <!--Profile-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/actionbar_myprofile"
+        >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            >
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--    Header    -->
+                    <ImageView
+                        android:id="@+id/iv_photo_profile"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmer_photo_profile"
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        app:layout_constraintStart_toStartOf="@id/iv_photo_profile"
+                        app:layout_constraintTop_toTopOf="@id/iv_photo_profile"
+                        shimmer:duration="800"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/bg_photo_shimmer"
+                                />
+
+                        </LinearLayout>
+
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="48dp"
+                        android:layout_marginEnd="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_photo_profile"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/fixed_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Postingan"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/big"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/fixed_post"
+                            app:layout_constraintEnd_toEndOf="@id/fixed_post"
+                            app:layout_constraintStart_toStartOf="@id/fixed_post" />
+
+                        <TextView
+                            android:id="@+id/fixed_follower"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="Pengikut"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/fixed_post" />
+
+                        <TextView
+                            android:id="@+id/tv_follower"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/big"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/fixed_follower"
+                            app:layout_constraintEnd_toEndOf="@id/fixed_follower"
+                            app:layout_constraintStart_toStartOf="@id/fixed_follower" />
+
+                        <TextView
+                            android:id="@+id/fixed_following"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="Mengikuti"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/fixed_follower" />
+
+                        <TextView
+                            android:id="@+id/tv_following"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1000"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/big"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/fixed_following"
+                            app:layout_constraintEnd_toEndOf="@id/fixed_following"
+                            app:layout_constraintStart_toStartOf="@id/fixed_following" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/text_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/iv_photo_profile">
+
+                        <TextView
+                            android:id="@+id/tv_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="username disini"
+                            android:textColor="@color/black"
+                            android:textFontWeight="500" />
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="alien"
+                            android:textColor="@color/grey_text"
+                            app:layout_constraintStart_toStartOf="@id/tv_username"
+                            app:layout_constraintTop_toBottomOf="@id/tv_username" />
+
+                        <TextView
+                            android:id="@+id/tv_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="deskripsi deskripsi"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toStartOf="@id/tv_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btn_editprofile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/bg_white_grey"
+                        android:stateListAnimator="@null"
+                        android:text="Edit Profil"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_layout"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicatorColor="@color/black"
+                    >
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/ic_grid" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/ic_tag_photo" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progressbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:visibility="gone"
+        >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white_transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

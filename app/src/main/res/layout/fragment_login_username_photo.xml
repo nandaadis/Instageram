@@ -15,7 +15,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:text="USERNAME DAN FOTO PROFIL"
+        android:text="USER ID DAN FOTO PROFIL"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/et_username"
+        android:id="@+id/et_userid"
         android:layout_width="match_parent"
         android:layout_height="@dimen/et_height"
         android:layout_marginStart="28dp"
@@ -32,11 +32,12 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:background="@drawable/bg_grey_grey"
-        android:hint="Username"
+        android:hint="User ID"
         android:textColor="@color/grey_text2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        android:digits="abcdefghijklmnopqrstuvwxyz1234567890_"/>
 
     <Button
         android:id="@+id/btn_takepic"
@@ -47,7 +48,7 @@
         android:layout_marginEnd="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username"
+        app:layout_constraintTop_toBottomOf="@+id/et_userid"
         android:drawableStart="@drawable/ic_outline_camera_alt_24"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -79,16 +80,39 @@
         android:foreground="?android:attr/selectableItemBackground"
         />
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:background="@color/white_transparent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="User ID hanya berisikan huruf kecil, angka dan underscore, udah nurut aja hehe"
+        android:textSize="@dimen/small"
+        android:textColor="@color/grey_text"
+        app:layout_constraintStart_toStartOf="@id/btn_next"
+        app:layout_constraintEnd_toEndOf="@id/btn_next"
+        app:layout_constraintTop_toBottomOf="@id/btn_next"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="48dp"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progressbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:visibility="gone"
+        >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white_transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
