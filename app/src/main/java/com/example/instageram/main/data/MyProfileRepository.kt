@@ -6,6 +6,7 @@ import com.example.instageram.main.data.model.EditProfileModel
 class MyProfileRepository(private val firebase: MyProfileSource) {
 
     fun getMyProfile() = firebase.getMyProfileData()
+    fun getMyProfileEdit() = firebase.getMyProfileEditData()
     fun getPhotoProfile(imagePath: String) = firebase.getPhotoProfile(imagePath)
     fun getCurrentUserUID() = firebase.getCurrentUserUID()
     fun uploadImage(

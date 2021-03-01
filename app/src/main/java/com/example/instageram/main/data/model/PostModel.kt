@@ -1,6 +1,7 @@
 package com.example.instageram.main.data.model
 
 data class PostModel(
+    val postid: String = "",
     val postowner: String = "",
     val loveby: ArrayList<String> = arrayListOf(),
     val photopath: ArrayList<String> = arrayListOf(),

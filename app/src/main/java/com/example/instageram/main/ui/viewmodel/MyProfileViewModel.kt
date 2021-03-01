@@ -2,15 +2,22 @@ package com.example.instageram.main.ui.viewmodel
 
 import android.net.Uri
 import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.example.instageram.main.data.MyProfileRepository
 import com.example.instageram.main.data.model.EditProfileModel
 import com.example.instageram.main.data.model.PhotoThumbnailModel
+import com.example.instageram.main.data.model.PostModel
 import com.example.instageram.main.data.model.ProfileModel
 import com.example.instageram.main.ui.view.myprofile.*
 import com.example.instageram.utils.Util
+import com.firebase.ui.firestore.paging.FirestorePagingOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -27,6 +34,11 @@ class MyProfileViewModel(private val repository: MyProfileRepository) : ViewMode
     private var _retreiveMyProfile = MutableLiveData<ProfileModel>()
     fun retreiveMyProfile(): LiveData<ProfileModel> {
         return _retreiveMyProfile
+    }
+
+    private var _profile = MutableLiveData<ProfileModel>()
+    fun profile(): LiveData<ProfileModel> {
+        return _profile
     }
 
     private var _photoList = MutableLiveData<List<String>>()
@@ -46,10 +58,11 @@ class MyProfileViewModel(private val repository: MyProfileRepository) : ViewMode
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _retreiveMyProfile.value = it
+                _profile.value = it
+                getMyProfileListener?.onSuccess()
             }, {
                 getMyProfileListener?.onFailure(it.message.toString())
-            }, { getMyProfileListener?.onSuccess() })
+            })
         disposables.add(disposable)
     }
 
@@ -71,7 +84,7 @@ class MyProfileViewModel(private val repository: MyProfileRepository) : ViewMode
     fun getMyProfileEdit() {
         myProfileEditProfilListener?.onLoading()
 
-        val disposable = repository.getMyProfile()
+        val disposable = repository.getMyProfileEdit()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -220,9 +233,46 @@ class MyProfileViewModel(private val repository: MyProfileRepository) : ViewMode
         disposables.add(disposable)
     }
 
+    fun getThumbnail2(photopath: String, holder: MyProfileMyPhotoAdapter.ViewHolder) {
+        myProfileMyPhotoListener?.onLoading()
+        val disposable2 = repository.getThumbnail(photopath)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _thumbnail.value = PhotoThumbnailModel(it, holder)
+                myProfileMyPhotoListener?.onSuccess(it)
+            }, {
+                myProfileMyPhotoListener?.onFailure(it.message!!)
+            })
+        disposables.add(disposable2)
+    }
+
 
     fun getCurrentUser(): String {
         return repository.getCurrentUserUID()
+    }
+
+    fun MyProfileMyphotoConfig(fragment: Fragment): FirestorePagingOptions<PostModel> {
+        val mQuery = FirebaseFirestore.getInstance().collection("post")
+            .whereEqualTo(
+                "postowner",
+                FirebaseAuth.getInstance().uid
+            ).orderBy("timestamp", Query.Direction.DESCENDING)
+
+        // Init Paging Configuration
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(true)
+            .setPrefetchDistance(2)
+            .setPageSize(5)
+            .build()
+
+        // Init Adapter Configuration
+        val options = FirestorePagingOptions.Builder<PostModel>()
+            .setLifecycleOwner(fragment)
+            .setQuery(mQuery, config, PostModel::class.java)
+            .build()
+
+        return options
     }
 
     override fun onCleared() {

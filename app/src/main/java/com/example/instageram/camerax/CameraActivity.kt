@@ -317,7 +317,7 @@ class CameraActivity : AppCompatActivity() {
 //        finish()
 
         //Compress image 1MB
-        val MAX_IMAGE_SIZE = 1000 * 1024
+        val MAX_IMAGE_SIZE = 500 * 1024
         var streamLength = MAX_IMAGE_SIZE
         var compressQuality = 105
         val bmpStream = ByteArrayOutputStream()

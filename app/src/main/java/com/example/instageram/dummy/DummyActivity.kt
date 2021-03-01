@@ -65,10 +65,10 @@ class DummyActivity : AppCompatActivity() {
                 data
             )
                 .addOnSuccessListener { documentReference ->
-                    Log.d(Util.TAG, "DocumentSnapshot written with ID: ${documentReference}")
+
                 }
                 .addOnFailureListener { e ->
-                    Log.w(Util.TAG, "Error adding document", e)
+
                 }
         }
 

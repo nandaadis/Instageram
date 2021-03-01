@@ -6,14 +6,43 @@
     app:startDestination="@id/timelineFragment">
     <fragment
         android:id="@+id/timelineFragment"
-        android:name="com.example.instageram.main.ui.view.timeline.TimelineFragment"
+        android:name="com.example.instageram.main.ui.view.search.TimelineFragment"
         android:label="fragment_timeline"
-        tools:layout="@layout/fragment_timeline" />
+        tools:layout="@layout/fragment_timeline" >
+        <action
+            android:id="@+id/action_timelineFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_detailCommentFragment"
+            app:destination="@id/detailCommentFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_loveDetailFragment"
+            app:destination="@id/loveDetailFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_loginUsernamePhotoFragment2"
+            app:destination="@id/loginUsernamePhotoFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.instageram.main.ui.view.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_detailCommentFragment"
+            app:destination="@id/detailCommentFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_loveDetailFragment"
+            app:destination="@id/loveDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.example.instageram.main.ui.view.CameraFragment"
@@ -30,6 +59,9 @@
         <action
             android:id="@+id/action_myProfileFragment_to_myProfilEditProfilFragment"
             app:destination="@id/myProfilEditProfilFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_follDetailFragment"
+            app:destination="@id/follDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/myProfilEditProfilFragment"
@@ -51,21 +83,79 @@
         <argument
             android:name="postID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailPostFragment_to_loveDetailFragment"
+            app:destination="@id/loveDetailFragment" />
+        <action
+            android:id="@+id/action_detailPostFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_detailPostFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailCommentFragment"
         android:name="com.example.instageram.main.ui.view.postdetail.DetailCommentFragment"
         android:label="fragment_detail_comment"
         tools:layout="@layout/fragment_detail_comment" >
-        <argument android:name="postID" />
+        <action
+            android:id="@+id/action_detailCommentFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_detailCommentFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+        <argument
+            android:name="postID"
+            app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/myProfileMyPhotoFragment"
-        android:name="com.example.instageram.main.ui.view.myprofile.MyProfileMyPhotoFragment"
-        android:label="fragment_my_profile_my_photo"
-        tools:layout="@layout/fragment_my_profile_my_photo" >
+        android:id="@+id/follDetailFragment"
+        android:name="com.example.instageram.main.ui.view.postdetail.FollDetailFragment"
+        android:label="fragment_foll_detail"
+        tools:layout="@layout/fragment_foll_detail" >
         <action
-            android:id="@+id/action_myProfileMyPhotoFragment_to_detailPostFragment"
-            app:destination="@id/detailPostFragment" />
+            android:id="@+id/action_follDetailFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_follDetailFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+        <argument
+            android:name="UserID"
+            app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/loveDetailFragment"
+        android:name="com.example.instageram.main.ui.view.postdetail.LoveDetailFragment"
+        android:label="fragment_love_detail"
+        tools:layout="@layout/fragment_love_detail" >
+        <action
+            android:id="@+id/action_loveDetailFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+        <action
+            android:id="@+id/action_loveDetailFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+        <argument
+            android:name="postID"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/otherProfileFragment"
+        android:name="com.example.instageram.main.ui.view.otherprofile.OtherProfileFragment"
+        android:label="fragment_other_profile"
+        tools:layout="@layout/fragment_other_profile" >
+        <action
+            android:id="@+id/action_otherProfileFragment_to_follDetailFragment"
+            app:destination="@id/follDetailFragment" />
+        <action
+            android:id="@+id/action_otherProfileFragment_to_detailPostFragment"
+            app:destination="@id/detailPostFragment" />
+        <argument
+            android:name="UserID"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginUsernamePhotoFragment2"
+        android:name="com.example.instageram.auth.ui.view.loginUsernamePhotoFragment"
+        android:label="fragment_login_username_photo"
+        tools:layout="@layout/fragment_login_username_photo" />
 </navigation>

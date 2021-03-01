@@ -1,29 +1,38 @@
 package com.example.instageram.main.ui.view.myprofile
 
+import android.content.Intent
+import android.icu.lang.UCharacter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.instageram.R
-import com.example.instageram.databinding.FragmentMyProfileBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.instageram.auth.ui.view.AuthActivity
 import com.example.instageram.databinding.FragmentMyProfileMyPhotoBinding
-import com.example.instageram.dummy.dummyadapter
-import com.example.instageram.dummy.dummymodel
 import com.example.instageram.main.data.MyProfileRepository
 import com.example.instageram.main.data.MyProfileSource
+import com.example.instageram.main.data.model.PostModel
 import com.example.instageram.main.ui.viewmodel.MyProfileModelFactory
 import com.example.instageram.main.ui.viewmodel.MyProfileViewModel
 import com.example.instageram.utils.Util
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter
+import com.firebase.ui.firestore.paging.FirestorePagingOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.fragment_my_profile_my_photo.*
 import kotlinx.android.synthetic.main.item_photo_thumbnail.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,6 +56,7 @@ class MyProfileMyPhotoFragment : Fragment(), MyProfileListener {
     private val myProfileRepository = MyProfileRepository(myProfileSource)
     private val factory = MyProfileModelFactory(myProfileRepository)
     private lateinit var viewModel: MyProfileViewModel
+    private lateinit var adapter: FirestorePagingAdapter<PostModel, MyProfileMyPhotoAdapter.ViewHolder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,32 +81,33 @@ class MyProfileMyPhotoFragment : Fragment(), MyProfileListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getMyPhoto()
-
-
         binding.rvPhotoThumbnail.layoutManager = GridLayoutManager(context, 3)
-        val adapter = MyProfileMyPhotoAdapter(listOf(), viewModel, viewLifecycleOwner, view)
+
+       adapter = MyProfileMyPhotoAdapter(
+            viewModel,
+            viewLifecycleOwner,
+            view,
+            viewModel.MyProfileMyphotoConfig(this),
+            binding.swipeRefreshLayout
+        )
 
         binding.rvPhotoThumbnail.adapter = adapter
 
-        viewModel.photoList().observe(viewLifecycleOwner, Observer {
-            adapter.list = it
-            Log.d(Util.TAG, "haii $it")
-            adapter.notifyDataSetChanged()
-        })
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
-
-        viewModel.getMyPhoto()
+        adapter.refresh()
+        Log.d(Util.TAG, "Ini onResume di TabLayout")
     }
 
     companion object {

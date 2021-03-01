@@ -146,6 +146,7 @@ class loginUsernamePhotoFragment : Fragment(), AuthListener, CheckListener {
         }
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
+        activity?.finish()
     }
 
     override fun onFailure(message: String) {
@@ -159,6 +160,6 @@ class loginUsernamePhotoFragment : Fragment(), AuthListener, CheckListener {
     }
 
     override fun UserNo() {
-        //Nothing to do all iz well
+        //Nothing to do, all iz well
     }
 }

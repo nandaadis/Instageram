@@ -1,235 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main.ui.view.postdetail.DetailPostFragment"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white"
+    tools:context=".main.ui.view.postdetail.DetailPostFragment">
 
-    <ImageView
-        android:id="@+id/iv_photo_profile"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp"
-        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_photo_profile"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintStart_toStartOf="@id/iv_photo_profile"
-        app:layout_constraintTop_toTopOf="@id/iv_photo_profile"
-        shimmer:duration="800"
-        >
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
+
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bg_photo_shimmer"
-                />
+                android:id="@+id/iv_photo_profile"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_photo_profile"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintStart_toStartOf="@id/iv_photo_profile"
+                app:layout_constraintTop_toTopOf="@id/iv_photo_profile"
+                shimmer:duration="800">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/bg_photo_shimmer" />
+
+                </LinearLayout>
 
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <TextView
-        android:id="@+id/tv_userid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/iv_photo_profile"
-        app:layout_constraintTop_toTopOf="@id/iv_photo_profile"
-        app:layout_constraintBottom_toBottomOf="@id/iv_photo_profile"
-        android:text="user_id_disini"
-        android:textStyle="bold"
-        android:textSize="@dimen/big"
-        android:layout_marginStart="10dp"/>
-
-    <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="match_parent"
-        android:layout_height="386dp"
-        app:layout_constraintTop_toBottomOf="@id/iv_photo_profile"
-        android:layout_marginTop="16dp"
-        />
-
-    <View
-        android:id="@+id/view_photo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/transparent"
-        app:layout_constraintTop_toTopOf="@id/iv_photo"
-        app:layout_constraintBottom_toBottomOf="@id/iv_photo"
-        app:layout_constraintEnd_toEndOf="@id/iv_photo"
-        app:layout_constraintStart_toStartOf="@id/iv_photo"
-        />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottie_love"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:lottie_rawRes="@raw/love_like"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="false"
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="@id/iv_photo"
-        app:layout_constraintBottom_toBottomOf="@id/iv_photo"
-        app:layout_constraintStart_toStartOf="@id/iv_photo"
-        app:layout_constraintEnd_toEndOf="@id/iv_photo"/>
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_photo"
-        android:layout_width="match_parent"
-        android:layout_height="386dp"
-        app:layout_constraintStart_toStartOf="@id/iv_photo"
-        app:layout_constraintTop_toTopOf="@id/iv_photo"
-        shimmer:duration="800"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_userid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="user_id_disini"
+                android:textSize="@dimen/big"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/iv_photo_profile"
+                app:layout_constraintStart_toEndOf="@id/iv_photo_profile"
+                app:layout_constraintTop_toTopOf="@id/iv_photo_profile" />
 
             <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/iv_photo_profile" />
+
+            <View
+                android:id="@+id/view_photo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                app:layout_constraintBottom_toBottomOf="@id/iv_photo"
+                app:layout_constraintEnd_toEndOf="@id/iv_photo"
+                app:layout_constraintStart_toStartOf="@id/iv_photo"
+                app:layout_constraintTop_toTopOf="@id/iv_photo" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_love"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/iv_photo"
+                app:layout_constraintEnd_toEndOf="@id/iv_photo"
+                app:layout_constraintStart_toStartOf="@id/iv_photo"
+                app:layout_constraintTop_toTopOf="@id/iv_photo"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/love_like" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_photo"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                app:layout_constraintStart_toStartOf="@id/iv_photo"
+                app:layout_constraintTop_toTopOf="@id/iv_photo"
+                shimmer:duration="800">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/shimmer" />
+
+                </LinearLayout>
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <ImageView
+                android:id="@+id/iv_love"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="12dp"
+                android:src="@drawable/ic_baseline_favorite_border_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_photo" />
+
+            <ImageView
+                android:id="@+id/iv_loved"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_favorite_24"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@id/iv_love"
+                app:layout_constraintTop_toTopOf="@id/iv_love" />
+
+            <ImageView
+                android:id="@+id/iv_comment"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_outline_mode_comment_24"
+                app:layout_constraintStart_toEndOf="@id/iv_love"
+                app:layout_constraintTop_toBottomOf="@id/iv_photo" />
+
+            <TextView
+                android:id="@+id/tv_love_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:text="disukai oleh"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_love" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_love_by">
+
+                <TextView
+                    android:id="@+id/tv_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:text="@string/dummy_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_read_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_gradient_left"
+                    android:text=" ... lainnya"
+                    android:textColor="@color/grey_text"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="Lihat semua komentar"
+                android:textColor="@color/grey_text"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/iv_love"
+                app:layout_constraintTop_toBottomOf="@id/layout_desc" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="date here"
+                android:paddingBottom="8dp"
+                android:textColor="@color/grey_text"
+                android:textSize="@dimen/small"
+                app:layout_constraintStart_toStartOf="@id/iv_love"
+                app:layout_constraintTop_toBottomOf="@id/tv_comment" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/shimmer"
-                />
+                android:background="@color/white"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white_transparent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_love"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintTop_toBottomOf="@id/iv_photo"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_baseline_favorite_border_24"
-        android:layout_margin="12dp"
-        />
-
-    <ImageView
-        android:id="@+id/iv_loved"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintTop_toBottomOf="@id/iv_photo"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_baseline_favorite_24"
-        android:layout_margin="12dp"
-        android:visibility="invisible"
-        />
-
-    <ImageView
-        android:id="@+id/iv_comment"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintStart_toEndOf="@id/iv_love"
-        app:layout_constraintTop_toBottomOf="@id/iv_photo"
-        android:src="@drawable/ic_outline_mode_comment_24"
-        android:layout_marginTop="14dp"
-        android:layout_marginStart="15dp"
-        />
-
-    <TextView
-        android:id="@+id/tv_love_by"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="disukai oleh"
-        app:layout_constraintTop_toBottomOf="@id/iv_love"
-        app:layout_constraintStart_toStartOf="@id/iv_love"
-        android:layout_marginTop="8dp"
-        android:textStyle="bold"/>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_desc"
-        android:layout_width="match_parent"
-        android:layout_height="18dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_love_by"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <TextView
-            android:id="@+id/tv_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dummy_text"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/tv_read_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/grey_text"
-            android:background="@color/white"
-            android:text="... lainnya"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lihat semua komentar"
-        android:textColor="@color/grey_text"
-        app:layout_constraintTop_toBottomOf="@id/layout_desc"
-        app:layout_constraintStart_toStartOf="@id/iv_love"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="date here"
-        android:textColor="@color/grey_text"
-        android:textSize="@dimen/small"
-        app:layout_constraintTop_toBottomOf="@id/tv_comment"
-        app:layout_constraintStart_toStartOf="@id/iv_love"
-        />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/progressbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white_transparent"
-            android:layout_marginTop="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

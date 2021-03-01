@@ -6,7 +6,7 @@ import com.example.instageram.auth.data.AuthRepository
 import com.example.instageram.auth.ui.viewmodel.AuthViewModel
 import com.example.instageram.main.data.MyProfileRepository
 
-@Suppress("UNCHECKED_CAST")
+
 class MyProfileModelFactory(
     private val repository: MyProfileRepository
     ) : ViewModelProvider.NewInstanceFactory() {

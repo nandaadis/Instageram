@@ -15,6 +15,7 @@ class MyProfileAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     // menentukan fragment yang akan dibuka pada posisi tertentu
     override fun getItem(position: Int): Fragment {
+        pages[position]
         return pages[position]
     }
 

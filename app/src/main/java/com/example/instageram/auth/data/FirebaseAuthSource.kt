@@ -2,6 +2,7 @@ package com.example.instageram.auth.data
 
 import android.net.Uri
 import com.example.instageram.auth.data.model.RegisterUsername
+import com.example.instageram.main.data.model.ProfileModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -47,20 +48,17 @@ class FirebaseAuthSource {
             uploadTask.addOnFailureListener {
                 emitter.onError(it)
             }.addOnSuccessListener { taskSnapshot ->
-                val data = RegisterUsername(taskSnapshot.storage.path, userid, userid)
+                val color = (Math.random() * 16777215).toInt() or (0xFF shl 24)
+
+
+                val data = RegisterUsername(taskSnapshot.storage.path, userid, userid, color)
                 emitter.onNext(data)
             }
         }
     }
 
     fun firestoreUser(RegisterUsername: RegisterUsername) = Completable.create { emitter ->
-        val data = RegisterUsername(
-            RegisterUsername.photopath,
-            RegisterUsername.userid,
-            RegisterUsername.userid
-        )
-
-        userCollectionRef.document(currentUser()).set(data)
+        userCollectionRef.document(currentUser()).set(RegisterUsername)
             .addOnSuccessListener { documentReference ->
                 emitter.onComplete()
             }
@@ -83,27 +81,18 @@ class FirebaseAuthSource {
     }
 
     fun checkUserId() = Completable.create { emitter ->
-        userCollectionRef.document(currentUser()).get().addOnCompleteListener{ task ->
-                if (task.isSuccessful) {
-                    if (task.result!!.exists()){
-                        emitter.onComplete()
-                    }
+        userCollectionRef.document(currentUser()).get().addOnCompleteListener { task ->
+            val data = task.result?.toObject(ProfileModel::class.java)
+            data?.userid?.let {
+                if (it.isNotEmpty()) {
+                    emitter.onComplete()
                 } else {
                     emitter.onError(task.exception!!)
                 }
-
+            }
+        }.addOnFailureListener {
+            emitter.onError(it)
         }
-//            OnCompleteListener<DocumentSnapshot> { task ->
-//                if (task.isSuccessful) {
-//                    if (task.result!!.exists()){
-//                        emitter.onComplete()
-//                    } else {
-//                        emitter.onError(task.exception!!)
-//                    }
-//                } else {
-//                    emitter.onError(task.exception!!)
-//                }
-//            })
     }
 
     fun currentUser(): String {

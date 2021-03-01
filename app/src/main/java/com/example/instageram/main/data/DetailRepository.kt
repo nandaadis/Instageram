@@ -11,4 +11,8 @@ class DetailRepository(private val firebase: DetailSource) {
     fun sendLove(postID:String) = firebase.sendLove(postID)
     fun sendUnlove(postID:String) = firebase.sendUnlove(postID)
     fun sendNotif(message: PushNotifModel) = firebase.sendNotif(message)
+    fun getUser(userID: String) = firebase.getUser(userID)
+    fun getCurrentUserProfile() = firebase.getCurrentUserProfile()
+    fun getUserProfile(profilUID: String) = firebase.getUserProfile(profilUID)
+    fun sendComment(postID: String, comment: String) = firebase.sendComment(postID, comment)
 }

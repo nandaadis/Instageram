@@ -25,6 +25,7 @@ import com.example.instageram.databinding.FragmentMyProfileBinding
 import com.example.instageram.main.data.MyProfileRepository
 import com.example.instageram.main.data.MyProfileSource
 import com.example.instageram.main.ui.view.MainActivity
+import com.example.instageram.main.ui.view.postdetail.LoveDetailFragmentDirections
 import com.example.instageram.main.ui.viewmodel.MyProfileModelFactory
 import com.example.instageram.main.ui.viewmodel.MyProfileViewModel
 import com.example.instageram.utils.Util
@@ -67,22 +68,26 @@ class MyProfileFragment : Fragment(), GetMyProfileListener {
 
         viewModel = ViewModelProviders.of(this, factory).get(MyProfileViewModel::class.java)
         viewModel.getMyProfileListener = this
-        viewModel.disposables = CompositeDisposable()
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.disposables = CompositeDisposable()
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
+        Log.d(Util.TAG, "My Profile onCreate View")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         viewModel.disposables.dispose()
+        Log.d(Util.TAG, "My Profile onDestroy View")
+
     }
 
 //    override fun onResume() {
@@ -107,8 +112,10 @@ class MyProfileFragment : Fragment(), GetMyProfileListener {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getMyProfile()
 
-        viewModel.retreiveMyProfile().observe(viewLifecycleOwner, Observer {
+        viewModel.profile().observe(viewLifecycleOwner, Observer  {
             viewModel.getPhotoProfile(it.photopath)
+
+            Log.d(Util.TAG, "Apakah disini eerornya? Observer MyProfile${it.username}")
 
             binding.tvUserId.text = it.userid
             binding.tvUsername.text = it.username
@@ -157,9 +164,9 @@ class MyProfileFragment : Fragment(), GetMyProfileListener {
 //            val action = MyProfileFragmentDirections.actionMyProfileFragmentToMyProfilEditProfilFragment(
 //                viewModel.getCurrentUser()
 //            )
-            Navigation.findNavController(view).navigate(R.id.action_myProfileFragment_to_myProfilEditProfilFragment)
-//            val intent = Intent(activity, EditProfileActivity::class.java)
-//            startActivity(intent)
+//            Navigation.findNavController(view).navigate(R.id.action_myProfileFragment_to_myProfilEditProfilFragment)
+            val intent = Intent(activity, EditProfileActivity::class.java)
+            startActivity(intent)
         }
 
         binding.ivMenu.setOnClickListener {
@@ -171,18 +178,40 @@ class MyProfileFragment : Fragment(), GetMyProfileListener {
                         FirebaseAuth.getInstance().signOut()
                         val intent = Intent(activity, SplashScreenActivity::class.java)
                         startActivity(intent)
+                        activity?.finish()
                     }
                 }
                 true
             })
             popupMenu.show()
         }
+
+        binding.tvFollower.setOnClickListener {
+            val action = MyProfileFragmentDirections.actionMyProfileFragmentToFollDetailFragment(viewModel.getCurrentUser())
+            view.findNavController().navigate(action)
+        }
+
+        binding.tvFollowing.setOnClickListener {
+            val action = MyProfileFragmentDirections.actionMyProfileFragmentToFollDetailFragment(viewModel.getCurrentUser())
+            view.findNavController().navigate(action)
+        }
+
+        binding.fixedFollower.setOnClickListener {
+            val action = MyProfileFragmentDirections.actionMyProfileFragmentToFollDetailFragment(viewModel.getCurrentUser())
+            view.findNavController().navigate(action)
+        }
+
+        binding.fixedFollowing.setOnClickListener {
+            val action = MyProfileFragmentDirections.actionMyProfileFragmentToFollDetailFragment(viewModel.getCurrentUser())
+            view.findNavController().navigate(action)
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
-
         viewModel.getMyProfile()
+        Log.d(Util.TAG, "Ini onResume di MyProfile")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -237,9 +266,7 @@ class MyProfileFragment : Fragment(), GetMyProfileListener {
             binding.progressbar.visibility = View.GONE
             Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
         }
-
     }
-
 
     override fun onLoadingPhotoProfile() {
         binding.shimmerPhotoProfile.startShimmerAnimation()

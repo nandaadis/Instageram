@@ -9,5 +9,6 @@ data class ProfileModel(
     val follower: ArrayList<String> = arrayListOf(),
     val following: ArrayList<String> = arrayListOf(),
     val post: ArrayList<String> = arrayListOf(),
-    val token: String = ""
+    val token: String = "",
+    val color: Int = -1920697
 )

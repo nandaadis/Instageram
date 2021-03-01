@@ -129,5 +129,11 @@ dependencies {
 
     // FCM
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
+
+    //Paging
+    // Firestore FirebaseUI Library
+    implementation 'com.firebaseui:firebase-ui-firestore:5.0.0'
+    // Paging Library
+    implementation 'android.arch.paging:runtime:1.0.1'
     
 }

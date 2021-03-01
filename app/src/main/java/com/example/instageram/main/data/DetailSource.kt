@@ -1,5 +1,6 @@
 package com.example.instageram.main.data
 
+import android.graphics.Color
 import android.util.Log
 import com.example.instageram.main.data.model.PostModel
 import com.example.instageram.main.data.model.ProfileModel
@@ -15,14 +16,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.SingleObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
+import java.util.*
 
 
 class DetailSource {
@@ -62,6 +59,37 @@ class DetailSource {
                 }
                 querySnapshot?.let {
                     val data = it.toObject<PostModel>()
+                    data?.let {
+                        emitter.onNext(it)
+
+                    }
+                }
+            }
+        }
+    }
+
+    fun getCurrentUserProfile(): Observable<ProfileModel> {
+        return Observable.create { emitter ->
+            userCollectionRef.document(getCurrentUserUID()).addSnapshotListener { querySnapshot, e ->
+                e?.let {
+                    emitter.onError(it)
+                }
+                querySnapshot?.let {
+                    val data = it.toObject<ProfileModel>()
+                    emitter.onNext(data!!)
+                }
+            }
+        }
+    }
+
+    fun getUserProfile(profilUID: String): Observable<ProfileModel> {
+        return Observable.create { emitter ->
+            userCollectionRef.document(profilUID).addSnapshotListener { querySnapshot, e ->
+                e?.let {
+                    emitter.onError(it)
+                }
+                querySnapshot?.let {
+                    val data = it.toObject<ProfileModel>()
                     emitter.onNext(data!!)
                 }
             }
@@ -69,17 +97,76 @@ class DetailSource {
     }
 
     fun sendLove(postID: String) = Completable.create { emitter ->
-        postCollectionRef.document(postID)
-            .update("loveby", FieldValue.arrayUnion(getCurrentUserUID()))
+        Firebase.firestore.runBatch { batch ->
+            val doc = postCollectionRef.document(postID)
+            val collection = postCollectionRef.document(postID).collection("love")
+            val data = mapOf(
+                "userid" to getCurrentUserUID(),
+                "timestamp" to Calendar.getInstance().timeInMillis.toString()
+            )
+            batch.update(doc, "loveby", FieldValue.arrayUnion(getCurrentUserUID()))
+            collection.add(data)
+        }
             .addOnSuccessListener { emitter.onComplete() }
             .addOnFailureListener { emitter.onError(it) }
     }
 
+
     fun sendUnlove(postID: String) = Completable.create { emitter ->
-        postCollectionRef.document(postID)
-            .update("loveby", FieldValue.arrayRemove(getCurrentUserUID()))
-            .addOnSuccessListener { emitter.onComplete() }
-            .addOnFailureListener { emitter.onError(it) }
+        val doc = postCollectionRef.document(postID)
+        val collection = postCollectionRef.document(postID).collection("love")
+        Firebase.firestore.runTransaction { transaction ->
+            transaction.update(doc, "loveby", FieldValue.arrayRemove(getCurrentUserUID()))
+        }
+            .addOnSuccessListener {
+                collection.whereEqualTo("userid", getCurrentUserUID()).get().addOnSuccessListener {
+
+                    if (it.documents.isNotEmpty()) {
+
+                        for (document in it.documents) {
+
+                            collection.document(document.id).delete()
+                        }
+                    }
+                }
+                    .addOnFailureListener {
+                        emitter.onError(it)
+
+                    }
+            }
+            .addOnFailureListener {
+
+                emitter.onError(it)
+            }
+
+    }
+
+    fun sendComment(postID: String, comment: String) = Completable.create { emitter ->
+        Firebase.firestore.runTransaction { transaction ->
+            val doc = postCollectionRef.document(postID)
+            val collection = postCollectionRef.document(postID).collection("comment")
+            val data = mapOf(
+                "userid" to getCurrentUserUID(),
+                "comment" to comment,
+                "timestamp" to Calendar.getInstance().timeInMillis.toString()
+            )
+
+            val result = transaction.get(doc).toObject(PostModel::class.java)
+            var value = result?.commentcount?.plus(1)
+            transaction.update(doc, "commentcount", value)
+
+            collection.add(data)
+        }
+            .addOnSuccessListener {
+
+            }
+            .addOnCompleteListener {
+                emitter.onComplete()
+
+            }
+            .addOnFailureListener {
+
+                emitter.onError(it) }
     }
 
 
@@ -87,34 +174,13 @@ class DetailSource {
         try {
             val response = RetrofitInstance.api.postNotif(message)
             if (response.isSuccessful) {
-                Log.d(Util.TAG, "Response: ${response}")
             } else {
-                Log.d(Util.TAG, "error lagi ${response.errorBody()}")
+
             }
         } catch (e: Exception) {
-            Log.d(Util.TAG, "halo $e")
+
         }
     }
-
-
-//        if(response.isSuccessful) {
-//                Log.d(Util.TAG, "Response: ${Gson().toJson(response)}")
-//            } else {
-//                Log.d(Util.TAG, response.errorBody().toString())
-//            }
-
-//        try {
-//            val response = RetrofitInstance.api.postNotif(message)
-//            if(response.isSuccessful) {
-//                Log.d(Util.TAG, "Response: ${Gson().toJson(response)}")
-//            } else {
-//                Log.d(Util.TAG, response.errorBody().toString())
-//            }
-//        } catch(e: Exception) {
-//            Log.e(Util.TAG, e.toString())
-//        }
-//    }
-//    }
 
     fun getCurrentUserUID(): String {
         return firebaseAuth.uid!!
@@ -131,5 +197,18 @@ class DetailSource {
         }
     }
 
+    fun getUser(userID: String): Observable<ProfileModel> {
+        return Observable.create { emitter ->
+            userCollectionRef.document(userID).get()
+                .addOnCompleteListener { task ->
+                    val data = task.result?.toObject(ProfileModel::class.java)
+                    if (data != null) {
+                        emitter.onNext(data)
+                    }
+                }.addOnFailureListener {
+                    emitter.onError(it)
+                }
+        }
+    }
 
 }

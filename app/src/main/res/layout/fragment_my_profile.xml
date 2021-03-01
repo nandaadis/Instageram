@@ -164,6 +164,7 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/big"
                             android:textStyle="bold"
+
                             app:layout_constraintBottom_toTopOf="@id/fixed_follower"
                             app:layout_constraintEnd_toEndOf="@id/fixed_follower"
                             app:layout_constraintStart_toStartOf="@id/fixed_follower" />

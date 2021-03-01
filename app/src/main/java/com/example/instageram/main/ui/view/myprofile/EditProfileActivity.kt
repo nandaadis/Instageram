@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -19,6 +20,7 @@ import com.example.instageram.main.data.MyProfileRepository
 import com.example.instageram.main.data.MyProfileSource
 import com.example.instageram.main.ui.viewmodel.MyProfileModelFactory
 import com.example.instageram.main.ui.viewmodel.MyProfileViewModel
+import com.example.instageram.utils.Util
 import java.io.File
 
 class EditProfileActivity : AppCompatActivity(), MyProfileEditProfilListener {
@@ -150,7 +152,7 @@ class EditProfileActivity : AppCompatActivity(), MyProfileEditProfilListener {
 
     override fun setEditProfileSuccess() {
         binding.progressbar.visibility = View.GONE
-        this?.onBackPressed()
+        finish()
         if(photoChanged == true){
             photoUri?.let{
                 val fdelete = File(it.path)

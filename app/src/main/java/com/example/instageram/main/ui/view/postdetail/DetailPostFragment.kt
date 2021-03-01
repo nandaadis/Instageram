@@ -3,16 +3,26 @@ package com.example.instageram.main.ui.view.postdetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Constraints
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ablanco.zoomy.Zoomy
 import com.bumptech.glide.Glide
@@ -20,7 +30,9 @@ import com.example.instageram.auth.ui.view.AuthActivity
 import com.example.instageram.databinding.FragmentDetailPostBinding
 import com.example.instageram.main.data.DetailRepository
 import com.example.instageram.main.data.DetailSource
+import com.example.instageram.main.data.model.CaptionModel
 import com.example.instageram.main.ui.view.MainActivity
+import com.example.instageram.main.ui.view.myprofile.MyProfileFragmentDirections
 import com.example.instageram.main.ui.viewmodel.DetailModelFactory
 import com.example.instageram.main.ui.viewmodel.DetailViewModel
 import com.example.instageram.pushnotification.NotifDataModel
@@ -28,10 +40,12 @@ import com.example.instageram.pushnotification.PushNotifModel
 import com.example.instageram.pushnotification.RetrofitInstance
 import com.example.instageram.utils.Util
 import com.google.gson.Gson
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -65,7 +79,6 @@ class DetailPostFragment : Fragment(), DetailListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
         viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel::class.java)
         viewModel.detailListener = this
     }
@@ -74,6 +87,7 @@ class DetailPostFragment : Fragment(), DetailListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.disposables = CompositeDisposable()
         _binding = FragmentDetailPostBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -82,29 +96,41 @@ class DetailPostFragment : Fragment(), DetailListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.disposables.dispose()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val UserUID = viewModel.getCurrentUserUID()
+        var PostOwnerUID = ""
         var isLove = false
         var token = ""
         var username = ""
+        var caption : CaptionModel = CaptionModel("","")
+
 
         args.postID.let {
             viewModel.getPostDetail(args.postID)
             viewModel.getPostUser(args.postID)
         }
+        viewModel.getCurrentUserProfile()
+
+        viewModel.currentuserprofile().observe(viewLifecycleOwner, Observer {
+            username = it.username
+        })
 
         viewModel.profile().observe(viewLifecycleOwner, Observer {
             binding.tvUserid.text = it.userid
             token = it.token
-            username = it.username
+
+            caption = CaptionModel(username = it.username)
+            viewModel.makeDesc(caption)
         })
 
+
         viewModel.post().observe(viewLifecycleOwner, Observer {
-            binding.tvDesc.text = it.desc
+            PostOwnerUID = it.postowner
 
             if (it.loveby.contains(UserUID)) {
                 isLove = true
@@ -115,10 +141,128 @@ class DetailPostFragment : Fragment(), DetailListener {
                 binding.ivLove.visibility = View.VISIBLE
                 binding.ivLoved.visibility = View.INVISIBLE
             }
+            binding.tvLoveBy.text = "${it.loveby.size} suka"
 
-            binding.tvLoveBy.text = "Disukai sebanyak ${it.loveby.size} manusia"
+            if (it.commentcount != 0) {
+                binding.tvComment.text = "Lihat semua ${it.commentcount} komentar"
+            } else {
+                binding.tvComment.visibility = View.GONE
+            }
+
+            var timestamp =
+                android.text.format.DateFormat.format("dd MMM", it.timestamp.toLong()).toString()
+
+            binding.tvDate.text = timestamp
+
+            caption = CaptionModel(desc = it.desc)
+            viewModel.makeDesc(caption)
         })
 
+        viewModel.caption().observe(viewLifecycleOwner, Observer {
+            //Desc
+            val name = "${it.username} "
+            val text = name + it.desc
+            val startName = text.indexOf(name)
+            val endName = startName + name.length
+            val startComment = text.indexOf(it.desc)
+            val endComment = text.length
+            val spannableString = SpannableString(text)
+            val nameClickableSpan = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    if (UserUID == PostOwnerUID) {
+                        val action = DetailPostFragmentDirections.actionDetailPostFragmentToMyProfileFragment()
+                        view.findNavController().navigate(action)
+                    } else {
+                        val action = DetailPostFragmentDirections.actionDetailPostFragmentToOtherProfileFragment(PostOwnerUID)
+                        view.findNavController().navigate(action)
+                    }
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.typeface = Typeface.DEFAULT_BOLD
+                    ds.color = Color.BLACK
+                    ds.isUnderlineText = false
+                }
+            }
+            val commentClickableSpan = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    val action = DetailPostFragmentDirections.actionDetailPostFragmentToDetailCommentFragment(args.postID)
+                    view.findNavController().navigate(action)
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.color = Color.BLACK
+                    ds.isUnderlineText = false
+                }
+            }
+            spannableString.setSpan(
+                nameClickableSpan,
+                startName,
+                endName,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            spannableString.setSpan(
+                commentClickableSpan,
+                startComment,
+                endComment,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            binding.tvDesc.text = spannableString
+            binding.tvDesc.movementMethod = LinkMovementMethod.getInstance()
+
+            if (binding.tvDesc.lineCount > 1) {
+                binding.tvReadMore.visibility = View.VISIBLE
+            }
+
+            binding.tvReadMore.setOnClickListener() {
+                binding.tvDesc.layoutParams = ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+                )
+                binding.tvReadMore.visibility = View.GONE
+            }
+        })
+
+//Navigation
+        binding.ivPhotoProfile.setOnClickListener {
+            if (UserUID == PostOwnerUID) {
+                val action = DetailPostFragmentDirections.actionDetailPostFragmentToMyProfileFragment()
+                view.findNavController().navigate(action)
+            } else {
+                val action = DetailPostFragmentDirections.actionDetailPostFragmentToOtherProfileFragment(PostOwnerUID)
+                view.findNavController().navigate(action)
+            }
+        }
+
+        binding.tvUserid.setOnClickListener {
+            if (UserUID == PostOwnerUID) {
+                val action = DetailPostFragmentDirections.actionDetailPostFragmentToMyProfileFragment()
+                view.findNavController().navigate(action)
+            } else {
+                val action = DetailPostFragmentDirections.actionDetailPostFragmentToOtherProfileFragment(PostOwnerUID)
+                view.findNavController().navigate(action)
+            }
+        }
+
+        binding.tvLoveBy.setOnClickListener {
+            val action = DetailPostFragmentDirections.actionDetailPostFragmentToLoveDetailFragment(args.postID)
+            view.findNavController().navigate(action)
+        }
+
+        binding.ivComment.setOnClickListener {
+            val action = DetailPostFragmentDirections.actionDetailPostFragmentToDetailCommentFragment(args.postID)
+            view.findNavController().navigate(action)
+        }
+
+        binding.tvComment.setOnClickListener {
+            val action = DetailPostFragmentDirections.actionDetailPostFragmentToDetailCommentFragment(args.postID)
+            view.findNavController().navigate(action)
+        }
+
+//Love
         binding.ivLove.setOnClickListener {
             viewModel.sendLove(args.postID, token, username)
             isLove = true
@@ -149,13 +293,14 @@ class DetailPostFragment : Fragment(), DetailListener {
                 .into(binding.ivPhoto)
         })
 
+
+//Photo
         val builder: Zoomy.Builder = Zoomy.Builder(activity).target(binding.ivPhoto)
         builder.register()
 
         binding.viewPhoto.setOnClickListener(object : DoubleClickListener() {
             override fun onDoubleClick(v: View) {
-                if (isLove == false)
-                {
+                if (isLove == false) {
                     viewModel.sendLove(args.postID, token, username)
 
                     val message = PushNotifModel(
@@ -171,15 +316,12 @@ class DetailPostFragment : Fragment(), DetailListener {
                     Handler(Looper.getMainLooper()).postDelayed({
                         binding.lottieLove.visibility = View.INVISIBLE
                     }, 800)
-                }
-
-                else {
+                } else {
                     viewModel.sendUnlove(args.postID)
                     isLove = false
                 }
             }
         })
-
 
 
     }

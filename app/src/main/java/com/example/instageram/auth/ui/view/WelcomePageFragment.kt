@@ -149,6 +149,7 @@ class WelcomePageFragment : Fragment(), AuthListener, CheckListener {
     override fun UserYes() {
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
+        activity?.finish()
     }
 
     override fun UserNo() {

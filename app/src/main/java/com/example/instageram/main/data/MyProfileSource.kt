@@ -9,11 +9,13 @@ import com.example.instageram.utils.Util
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.reactivex.Completable
 import io.reactivex.Observable
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MyProfileSource {
 
@@ -24,18 +26,36 @@ class MyProfileSource {
 
     fun getMyProfileData(): Observable<ProfileModel> {
         return Observable.create { emitter ->
-            userCollectionRef.document(firebaseAuth.uid!!).get()
-                .addOnCompleteListener { task ->
-                    val data = task.result?.toObject(ProfileModel::class.java)
-                    if (data != null) {
-                        emitter.onNext(data)
-                        emitter.onComplete()
-                    }
-
-                }
-                .addOnFailureListener {
+            userCollectionRef.document(firebaseAuth.uid!!).addSnapshotListener { querySnapshot, e ->
+                e?.let {
                     emitter.onError(it)
                 }
+                querySnapshot?.let {
+                    val data = it.toObject<ProfileModel>()
+                    data?.let {
+                        emitter.onNext(it)
+                    }
+                    emitter.onComplete()
+                }
+            }
+        }
+    }
+
+    fun getMyProfileEditData(): Observable<ProfileModel> {
+        return Observable.create { emitter ->
+            userCollectionRef.document(firebaseAuth.uid!!).addSnapshotListener { querySnapshot, e ->
+                e?.let {
+                    emitter.onError(it)
+                }
+                querySnapshot?.let {
+                    val data = it.toObject<ProfileModel>()
+                    data?.let {
+                        emitter.onNext(it)
+
+                    }
+                    emitter.onComplete()
+                }
+            }
         }
     }
 
@@ -45,9 +65,9 @@ class MyProfileSource {
             postCollectionRef.whereEqualTo("postowner", getCurrentUserUID()).orderBy("timestamp")
                 .get()
                 .addOnSuccessListener { documents ->
-                    var data: MutableList<String> = mutableListOf()
-                    for (doc in documents){
-                        Log.d(Util.TAG, "source ${doc.id}")
+                    val data: MutableList<String> = mutableListOf()
+                    for (doc in documents) {
+
                         data.add(doc.id)
                     }
                     emitter.onNext(data)
@@ -129,13 +149,16 @@ class MyProfileSource {
             val postDocRef = postCollectionRef.document(docName)
 
             val result = it.get(userDocRef).toObject(ProfileModel::class.java)
+            val list: ArrayList<String> = result?.follower!!
+            list.add(getCurrentUserUID())
             val data = PostModel(
+                docName,
                 userUID,
                 arrayListOf(),
                 arrayListOf(photopath),
                 millis.toString(),
                 desc,
-                result?.follower!!,
+                list,
                 0
             )
 
@@ -175,10 +198,8 @@ class MyProfileSource {
         }
     }
 
-
     fun getCurrentUserUID(): String {
         return firebaseAuth.uid!!
     }
-
 
 }
